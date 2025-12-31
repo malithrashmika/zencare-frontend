@@ -9,12 +9,32 @@ export interface User {
 export interface Patient {
   id: string
   name: string
-  age: number
   phone: string
   email: string
-  lastVisit: string
+  dateOfBirth: string 
+  age: number 
   gender: 'Male' | 'Female' | 'Other'
+  address: string
+  notes?: string
   status: 'Active' | 'Inactive'
+  registrationDate: string 
+  lastVisit?: string 
+}
+export interface PatientFormData {
+  name: string
+  phone: string
+  email: string
+  dateOfBirth: string
+  gender: 'Male' | 'Female' | 'Other'
+  address: string
+  notes?: string
+  status?: 'Active' | 'Inactive'
+}
+
+export interface PatientsFilters {
+  search?: string
+  gender?: string
+  status?: string
 }
 
 export interface Doctor {
@@ -45,7 +65,7 @@ export interface DashboardStats {
   completedVisits: number
   activeDoctors: number
   trends: {
-    patients: number // percentage
+    patients: number 
     appointments: number
     revenue: number
   }
