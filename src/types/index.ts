@@ -11,15 +11,16 @@ export interface Patient {
   name: string
   phone: string
   email: string
-  dateOfBirth: string 
-  age: number 
+  dateOfBirth: string // ISO date string YYYY-MM-DD
+  age: number // calculated from DOB
   gender: 'Male' | 'Female' | 'Other'
   address: string
   notes?: string
   status: 'Active' | 'Inactive'
-  registrationDate: string 
-  lastVisit?: string 
+  registrationDate: string // ISO date string
+  lastVisit?: string // ISO date string
 }
+
 export interface PatientFormData {
   name: string
   phone: string
@@ -40,22 +41,59 @@ export interface PatientsFilters {
 export interface Doctor {
   id: string
   name: string
-  specialty: string
-  avatar?: string
+  specialization: string
+  phone: string
+  email: string
+  channelFee: number
   status: 'Active' | 'On Leave'
+  avatar?: string
+  createdAt: string // ISO date string
+}
+
+export interface DoctorFormData {
+  name: string
+  specialization: string
+  phone: string
+  email: string
+  channelFee: number
+  status?: 'Active' | 'On Leave'
+}
+
+export interface DoctorsFilters {
+  search?: string
+  specialization?: string
+  status?: string
 }
 
 export interface Appointment {
   id: string
   patientId: string
   patientName: string
+  patientPhone: string
   doctorId: string
   doctorName: string
-  time: string
-  date: string
-  status: 'scheduled' | 'completed' | 'cancelled' | 'pending'
-  type: string
+  doctorSpecialization: string
+  dateTime: string // ISO datetime string
+  reason: string
+  status: 'Scheduled' | 'Completed' | 'Cancelled' | 'No-Show'
+  createdAt: string // ISO datetime string
   notes?: string
+}
+
+export interface AppointmentFormData {
+  patientId: string
+  doctorId: string
+  dateTime: string
+  reason: string
+  notes?: string
+}
+
+export interface AppointmentsFilters {
+  search?: string
+  status?: string
+  doctorId?: string
+  dateFrom?: string
+  dateTo?: string
 }
 
 export interface DashboardStats {
@@ -65,7 +103,7 @@ export interface DashboardStats {
   completedVisits: number
   activeDoctors: number
   trends: {
-    patients: number 
+    patients: number // percentage
     appointments: number
     revenue: number
   }
