@@ -1,3 +1,5 @@
+import type { ReactNode } from "react"
+
 export interface User {
   id: string
   name: string
@@ -66,6 +68,9 @@ export interface DoctorsFilters {
 }
 
 export interface Appointment {
+  date: ReactNode
+  time: ReactNode
+  type: ReactNode
   id: string
   patientId: string
   patientName: string

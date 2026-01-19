@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { Appointment, AppointmentsFilters, AppointmentFormData } from '../types'
 import { appointmentsApi } from '../services/appointmentsApi'
-import { toast } from 'sonner'
+
+
 
 export function useAppointments() {
   const [appointments, setAppointments] = useState<Appointment[]>([])
@@ -14,12 +15,13 @@ export function useAppointments() {
     try {
       const data = await appointmentsApi.getAll(filters)
       setAppointments(data)
-    } catch (error) {
+    } catch (eroor) {
       addToast({
         title: 'Error',
         description: 'Failed to fetch appointments',
         type: 'error',
       })
+        throw eroor
     } finally {
       setLoading(false)
     }
@@ -158,3 +160,7 @@ export function useAppointments() {
     refresh: fetchAppointments,
   }
 }
+function useToast(): { addToast: (toast: { title: string; description: string; type: 'error' | 'success' | 'info' }) => void } {
+    throw new Error('Function not implemented.')
+}
+

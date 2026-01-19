@@ -195,8 +195,13 @@ export const recentAppointments: Appointment[] = [
     doctorName: 'Dr. Sarah Wilson',
     time: '09:00 AM',
     date: '2023-10-24',
-    status: 'completed',
+    status: 'Completed',
     type: 'General Checkup',
+    patientPhone: '',
+    doctorSpecialization: '',
+    dateTime: '',
+    reason: '',
+    createdAt: ''
   },
   {
     id: 'a2',
@@ -206,8 +211,13 @@ export const recentAppointments: Appointment[] = [
     doctorName: 'Dr. Michael Chen',
     time: '09:30 AM',
     date: '2023-10-24',
-    status: 'scheduled',
+    status: 'Scheduled',
     type: 'Dental Cleaning',
+    patientPhone: '',
+    doctorSpecialization: '',
+    dateTime: '',
+    reason: '',
+    createdAt: ''
   },
   {
     id: 'a3',
@@ -217,8 +227,13 @@ export const recentAppointments: Appointment[] = [
     doctorName: 'Dr. Emily Parker',
     time: '10:15 AM',
     date: '2023-10-24',
-    status: 'pending',
+    status: 'Scheduled',
     type: 'Consultation',
+    patientPhone: '',
+    doctorSpecialization: '',
+    dateTime: '',
+    reason: '',
+    createdAt: ''
   },
   {
     id: 'a4',
@@ -228,8 +243,13 @@ export const recentAppointments: Appointment[] = [
     doctorName: 'Dr. Sarah Wilson',
     time: '11:00 AM',
     date: '2023-10-24',
-    status: 'cancelled',
+    status: 'Cancelled',
     type: 'Follow-up',
+    patientPhone: '',
+    doctorSpecialization: '',
+    dateTime: '',
+    reason: '',
+    createdAt: ''
   },
   {
     id: 'a5',
@@ -239,8 +259,13 @@ export const recentAppointments: Appointment[] = [
     doctorName: 'Dr. Michael Chen',
     time: '11:30 AM',
     date: '2023-10-24',
-    status: 'scheduled',
+    status: 'Scheduled',
     type: 'Root Canal',
+    patientPhone: '',
+    doctorSpecialization: '',
+    dateTime: '',
+    reason: '',
+    createdAt: ''
   },
 ]
 
@@ -248,25 +273,34 @@ export const doctors: Doctor[] = [
   {
     id: 'd1',
     name: 'Dr. Sarah Wilson',
-    specialty: 'General Medicine',
+    specialization: 'General Medicine',
     status: 'Active',
-    avatar:
-      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=200&auto=format&fit=crop',
+    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=200&auto=format&fit=crop',
+    phone: '',
+    email: '',
+    channelFee: 0,
+    createdAt: ''
   },
   {
     id: 'd2',
     name: 'Dr. Michael Chen',
-    specialty: 'Dentistry',
+    specialization: 'Dentistry',
     status: 'Active',
-    avatar:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=200&auto=format&fit=crop',
+    avatar: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=200&auto=format&fit=crop',
+    phone: '',
+    email: '',
+    channelFee: 0,
+    createdAt: ''
   },
   {
     id: 'd3',
     name: 'Dr. Emily Parker',
-    specialty: 'Pediatrics',
+    specialization: 'Pediatrics',
     status: 'Active',
-    avatar:
-      'https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=200&auto=format&fit=crop',
+    avatar: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=200&auto=format&fit=crop',
+    phone: '',
+    email: '',
+    channelFee: 0,
+    createdAt: ''
   },
 ]
