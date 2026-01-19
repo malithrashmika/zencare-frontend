@@ -5,7 +5,7 @@ import { doctors } from '../../services/mockData'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import { Select, SelectItem } from '../ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Textarea } from '../ui/textarea'
 import { DialogFooter } from '../ui/dialog'
 interface AppointmentFormProps {
@@ -77,35 +77,41 @@ export function AppointmentForm({
                 patientId: val,
               }))
             }
-            
           >
-            {activePatients.map((patient) => (
-              <SelectItem key={patient.id} value={patient.id}>
-                {patient.name} - {patient.phone}
-              </SelectItem>
-            ))}
+            <SelectTrigger>
+              <SelectValue placeholder="Select patient" />
+            </SelectTrigger>
+            <SelectContent>
+              {activePatients.map((patient) => (
+                <SelectItem key={patient.id} value={patient.id}>
+                  {patient.name} - {patient.phone}
+                </SelectItem>
+              ))}
+            </SelectContent>
           </Select>
         </div>
 
-    <div className="space-y-2">
-      <Label htmlFor="doctor">Doctor *</Label>
-      <Select
-        value={formData.doctorId}
-        onValueChange={(val) =>
-          setFormData((prev) => ({
-            ...prev,
-            doctorId: val,
-          }))
-        }
-      >
-        <SelectItem value="" disabled>
-          Select doctor
-        </SelectItem>
-            {activeDoctors.map((doctor) => (
-              <SelectItem key={doctor.id} value={doctor.id}>
-                {doctor.name} - {doctor.specialization}
-              </SelectItem>
-            ))}
+        <div className="space-y-2">
+          <Label htmlFor="doctor">Doctor *</Label>
+          <Select
+            value={formData.doctorId}
+            onValueChange={(val) =>
+              setFormData((prev) => ({
+                ...prev,
+                doctorId: val,
+              }))
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select doctor" />
+            </SelectTrigger>
+            <SelectContent>
+              {activeDoctors.map((doctor) => (
+                <SelectItem key={doctor.id} value={doctor.id}>
+                  {doctor.name} - {doctor.specialization}
+                </SelectItem>
+              ))}
+            </SelectContent>
           </Select>
         </div>
 

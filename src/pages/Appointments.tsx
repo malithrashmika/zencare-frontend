@@ -6,7 +6,7 @@ import type { Appointment, AppointmentFormData } from '../types'
 import { doctors } from '../services/mockData'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
-import { Select, SelectItem } from '../components/ui/select'
+import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from '../components/ui/select'
 import {
   Dialog,
   DialogContent,
@@ -29,9 +29,13 @@ import { AppointmentsTable } from '../components/appointments/AppointmentsTable'
 import { AppointmentForm } from '../components/appointments/AppointmentForm'
 import { AppointmentView } from '../components/appointments/AppointmentView'
 import { StatusUpdateDialog } from '../components/appointments/StatusUpdateDialog'
+import { Toaster } from 'sonner'
 
 export function Appointments() {
-  return <AppointmentsContent />
+  return <>
+    <AppointmentsContent />
+    <Toaster />
+  </>
 }
 function AppointmentsContent() {
   const { user } = useAuth()
@@ -150,11 +154,16 @@ function AppointmentsContent() {
                   }))
                 }
               >
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="Scheduled">Scheduled</SelectItem>
-                <SelectItem value="Completed">Completed</SelectItem>
-                <SelectItem value="Cancelled">Cancelled</SelectItem>
-                <SelectItem value="No-Show">No-Show</SelectItem>
+                <SelectTrigger>
+                  <SelectValue placeholder="All Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="Scheduled">Scheduled</SelectItem>
+                  <SelectItem value="Completed">Completed</SelectItem>
+                  <SelectItem value="Cancelled">Cancelled</SelectItem>
+                  <SelectItem value="No-Show">No-Show</SelectItem>
+                </SelectContent>
               </Select>
             </div>
 
@@ -169,12 +178,17 @@ function AppointmentsContent() {
                     }))
                   }
                 >
-                  <SelectItem value="all">All Doctors</SelectItem>
-                  {activeDoctors.map((doctor) => (
-                    <SelectItem key={doctor.id} value={doctor.id}>
-                      {doctor.name}
-                    </SelectItem>
-                  ))}
+                  <SelectTrigger>
+                    <SelectValue placeholder="All Doctors" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Doctors</SelectItem>
+                    {activeDoctors.map((doctor) => (
+                      <SelectItem key={doctor.id} value={doctor.id}>
+                        {doctor.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
                 </Select>
               </div>
             )}

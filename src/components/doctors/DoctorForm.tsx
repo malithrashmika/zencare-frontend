@@ -3,7 +3,7 @@ import type { Doctor, DoctorFormData } from '../../types'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import { Select, SelectItem } from '../ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { DialogFooter } from '../ui/dialog'
 interface DoctorFormProps {
   initialData?: Doctor
@@ -138,8 +138,13 @@ export function DoctorForm({
               }))
             }
           >
-            <SelectItem value="Active">Active</SelectItem>
-            <SelectItem value="On Leave">On Leave</SelectItem>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Active">Active</SelectItem>
+              <SelectItem value="On Leave">On Leave</SelectItem>
+            </SelectContent>
           </Select>
         </div>
       </div>

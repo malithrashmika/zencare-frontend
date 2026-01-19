@@ -1,31 +1,25 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { Appointment, AppointmentsFilters, AppointmentFormData } from '../types'
 import { appointmentsApi } from '../services/appointmentsApi'
-
-
+import { toast } from 'sonner'
 
 export function useAppointments() {
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState<AppointmentsFilters>({})
-  const { addToast } = useToast()
 
   const fetchAppointments = useCallback(async () => {
     setLoading(true)
     try {
       const data = await appointmentsApi.getAll(filters)
       setAppointments(data)
-    } catch (eroor) {
-      addToast({
-        title: 'Error',
-        description: 'Failed to fetch appointments',
-        type: 'error',
-      })
-        throw eroor
+    } catch (error) {
+      toast.error('Failed to fetch appointments')
+        throw error
     } finally {
       setLoading(false)
     }
-  }, [filters, addToast])
+  }, [filters])
 
   useEffect(() => {
     // Debounce search
@@ -44,28 +38,15 @@ export function useAppointments() {
         data.dateTime,
       )
       if (hasOverlap) {
-        addToast({
-          title: 'Warning',
-          description:
-            'Doctor has another appointment within 30 minutes of this time',
-          type: 'info',
-        })
+        toast.info('Doctor has another appointment within 30 minutes of this time')
       }
 
       const newAppointment = await appointmentsApi.create(data)
       setAppointments((prev) => [newAppointment, ...prev])
-      addToast({
-        title: 'Success',
-        description: 'Appointment created successfully',
-        type: 'success',
-      })
+      toast.success('Appointment created successfully')
       return newAppointment
     } catch (error) {
-      addToast({
-        title: 'Error',
-        description: 'Failed to create appointment',
-        type: 'error',
-      })
+      toast.error('Failed to create appointment')
       throw error
     }
   }
@@ -79,30 +60,17 @@ export function useAppointments() {
         id,
       )
       if (hasOverlap) {
-        addToast({
-          title: 'Warning',
-          description:
-            'Doctor has another appointment within 30 minutes of this time',
-          type: 'info',
-        })
+        toast.info('Doctor has another appointment within 30 minutes of this time')
       }
 
       const updatedAppointment = await appointmentsApi.update(id, data)
       setAppointments((prev) =>
         prev.map((a) => (a.id === id ? updatedAppointment : a)),
       )
-      addToast({
-        title: 'Success',
-        description: 'Appointment updated successfully',
-        type: 'success',
-      })
+      toast.success('Appointment updated successfully')
       return updatedAppointment
     } catch (error) {
-      addToast({
-        title: 'Error',
-        description: 'Failed to update appointment',
-        type: 'error',
-      })
+      toast.error('Failed to update appointment')
       throw error
     }
   }
@@ -113,18 +81,10 @@ export function useAppointments() {
       setAppointments((prev) =>
         prev.map((a) => (a.id === id ? updatedAppointment : a)),
       )
-      addToast({
-        title: 'Success',
-        description: `Appointment marked as ${status}`,
-        type: 'success',
-      })
+      toast.success(`Appointment marked as ${status}`)
       return updatedAppointment
     } catch (error) {
-      addToast({
-        title: 'Error',
-        description: 'Failed to update appointment status',
-        type: 'error',
-      })
+      toast.error('Failed to update appointment status')
       throw error
     }
   }
@@ -133,17 +93,9 @@ export function useAppointments() {
     try {
       await appointmentsApi.delete(id)
       setAppointments((prev) => prev.filter((a) => a.id !== id))
-      addToast({
-        title: 'Success',
-        description: 'Appointment deleted successfully',
-        type: 'success',
-      })
+      toast.success('Appointment deleted successfully')
     } catch (error) {
-      addToast({
-        title: 'Error',
-        description: 'Failed to delete appointment',
-        type: 'error',
-      })
+      toast.error('Failed to delete appointment')
       throw error
     }
   }
@@ -159,8 +111,5 @@ export function useAppointments() {
     deleteAppointment,
     refresh: fetchAppointments,
   }
-}
-function useToast(): { addToast: (toast: { title: string; description: string; type: 'error' | 'success' | 'info' }) => void } {
-    throw new Error('Function not implemented.')
 }
 

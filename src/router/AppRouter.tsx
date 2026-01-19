@@ -3,6 +3,7 @@ import { DashboardLayout } from "../layouts/DashboardLayout";
 import { Dashboard } from "../pages/Dashboard";
 import { Patients } from "@/pages/Patients";
 import { Appointments } from "@/pages/Appointments";
+import { Doctors } from "@/pages/Doctors";
 const Placeholder = ({
     title
 }: {
@@ -18,7 +19,7 @@ export function AppRouter() {
                 <Route index element={<Dashboard />} />
                 <Route path="patients" element={<Patients />} />
                 <Route path="appointments" element={<Appointments />} />
-                <Route path="doctors" element={<Placeholder title="Doctors" />} />
+                <Route path="doctors" element={<Doctors />} />
                 <Route path="treatments" element={<Placeholder title="Treatments" />} />
                 <Route path="billing" element={<Placeholder title="Billing" />} />
                 <Route path="reports" element={<Placeholder title="Reports" />} />
