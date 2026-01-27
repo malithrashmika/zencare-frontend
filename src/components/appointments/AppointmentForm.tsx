@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import type { Appointment, AppointmentFormData } from '../../types'
-import { patients } from '../../services/mockData'
-import { doctors } from '../../services/mockData'
+import type { Appointment, AppointmentFormData, Patient, Doctor } from '../../types'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Textarea } from '../ui/textarea'
 import { DialogFooter } from '../ui/dialog'
+
 interface AppointmentFormProps {
   initialData?: Appointment
   onSubmit: (data: AppointmentFormData) => Promise<void>
   onCancel: () => void
+  patients: Patient[]
+  doctors: Doctor[]
 }
+
 export function AppointmentForm({
   initialData,
   onSubmit,
   onCancel,
+  patients,
+  doctors,
 }: AppointmentFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState<AppointmentFormData>({
@@ -27,8 +31,8 @@ export function AppointmentForm({
     notes: '',
   })
   // Filter active patients and doctors
-  const activePatients = patients.filter((p) => p.status === 'Active')
-  const activeDoctors = doctors.filter((d) => d.status === 'Active')
+  const activePatients = patients.filter((p: Patient) => p.status === 'Active')
+  const activeDoctors = doctors.filter((d: Doctor) => d.status === 'Active')
   useEffect(() => {
     if (initialData) {
       // Convert ISO datetime to datetime-local format
@@ -82,7 +86,7 @@ export function AppointmentForm({
               <SelectValue placeholder="Select patient" />
             </SelectTrigger>
             <SelectContent>
-              {activePatients.map((patient) => (
+              {activePatients.map((patient: Patient) => (
                 <SelectItem key={patient.id} value={patient.id}>
                   {patient.name} - {patient.phone}
                 </SelectItem>
@@ -106,12 +110,13 @@ export function AppointmentForm({
               <SelectValue placeholder="Select doctor" />
             </SelectTrigger>
             <SelectContent>
-              {activeDoctors.map((doctor) => (
+              {activeDoctors.map((doctor: Doctor) => (
                 <SelectItem key={doctor.id} value={doctor.id}>
                   {doctor.name} - {doctor.specialization}
                 </SelectItem>
               ))}
             </SelectContent>
+
           </Select>
         </div>
 

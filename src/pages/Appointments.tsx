@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Plus, Search } from 'lucide-react'
 import { useAppointments } from '../hooks/useAppointments'
+import { usePatients } from '../hooks/usePatients'
 import { useAuth } from '../hooks/useAuth'
 import type { Appointment, AppointmentFormData} from '../types'
 import { Button } from '../components/ui/button'
@@ -39,6 +40,8 @@ export function Appointments() {
 }
 function AppointmentsContent() {
   const { user } = useAuth()
+  const { doctors } = useDoctors()
+  const { patients } = usePatients()
   const {
     appointments,
     loading,
@@ -107,7 +110,6 @@ function AppointmentsContent() {
     }
     return ['Scheduled']
   }
-  const { doctors } = useDoctors()   
   // Get active doctors for filter
   const activeDoctors = doctors.filter((d) => d.status === 'Active')
   return (
@@ -279,6 +281,8 @@ function AppointmentsContent() {
             <AppointmentForm
               onSubmit={handleCreate}
               onCancel={() => setIsAddOpen(false)}
+              patients={patients}
+              doctors={doctors}
             />
           </DialogContent>
         </Dialog>
@@ -302,6 +306,8 @@ function AppointmentsContent() {
                 initialData={selectedAppointment}
                 onSubmit={handleUpdate}
                 onCancel={() => setSelectedAppointment(null)}
+                patients={patients}
+                doctors={doctors}
               />
             ) : (
               <AppointmentView

@@ -14,7 +14,7 @@ interface HeaderProps {
   onMenuClick: () => void
 }
 export function Header({ onMenuClick }: HeaderProps) {
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center border-b border-slate-200 bg-white px-4 md:px-6">
       <Button
@@ -74,7 +74,7 @@ export function Header({ onMenuClick }: HeaderProps) {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-600">
+              <DropdownMenuItem onClick={logout} className="text-red-600 cursor-pointer">
                 Log out
               </DropdownMenuItem>
             </DropdownMenuContent>

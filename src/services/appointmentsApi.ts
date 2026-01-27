@@ -1,6 +1,18 @@
 import type { Appointment, AppointmentFormData, AppointmentsFilters } from '../types'
 import apiClient from '../api/apiclient'
 
+const mapAppointment = (data: any): Appointment => ({
+  ...data,
+  id: data._id || data.id,
+  patientId: data.patient?._id || data.patient?.id || data.patientId,
+  patientName: data.patient?.name || 'Unknown Patient',
+  patientPhone: data.patient?.phone || 'N/A',
+  doctorId: data.doctor?._id || data.doctor?.id || data.doctorId,
+  doctorName: data.doctor?.name || 'Unknown Doctor',
+  doctorSpecialization: data.doctor?.specialization || 'N/A',
+  dateTime: data.date || data.dateTime || new Date().toISOString(),
+})
+
 export const appointmentsApi = {
   async getAll(filters?: AppointmentsFilters): Promise<Appointment[]> {
     try {
@@ -11,8 +23,8 @@ export const appointmentsApi = {
       if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)
       if (filters?.dateTo) params.append('dateTo', filters.dateTo)
 
-      const response = await apiClient.get<Appointment[]>('/appointments', { params })
-      return response.data
+      const response = await apiClient.get<any[]>('/appointments', { params })
+      return response.data.map(mapAppointment)
     } catch (error) {
       console.error('Failed to fetch appointments:', error)
       throw error
@@ -21,8 +33,8 @@ export const appointmentsApi = {
 
   async getById(id: string): Promise<Appointment | undefined> {
     try {
-      const response = await apiClient.get<Appointment>(`/appointments/${id}`)
-      return response.data
+      const response = await apiClient.get<any>(`/appointments/${id}`)
+      return mapAppointment(response.data)
     } catch (error) {
       console.error('Failed to fetch appointment:', error)
       throw error
@@ -31,8 +43,10 @@ export const appointmentsApi = {
 
   async create(data: AppointmentFormData): Promise<Appointment> {
     try {
-      const response = await apiClient.post<Appointment>('/appointments', data)
-      return response.data
+      const response = await apiClient.post<any>('/appointments/save', data)
+      // The response.data might be { message, appointment } or just appointment
+      const appointmentData = response.data.appointment || response.data
+      return mapAppointment(appointmentData)
     } catch (error) {
       console.error('Failed to create appointment:', error)
       throw error
@@ -41,8 +55,9 @@ export const appointmentsApi = {
 
   async update(id: string, data: AppointmentFormData): Promise<Appointment> {
     try {
-      const response = await apiClient.put<Appointment>(`/appointments/${id}`, data)
-      return response.data
+      const response = await apiClient.put<any>(`/appointments/${id}`, data)
+      const appointmentData = response.data.appointment || response.data
+      return mapAppointment(appointmentData)
     } catch (error) {
       console.error('Failed to update appointment:', error)
       throw error
@@ -54,8 +69,9 @@ export const appointmentsApi = {
     status: Appointment['status'],
   ): Promise<Appointment> {
     try {
-      const response = await apiClient.patch<Appointment>(`/appointments/${id}/status`, { status })
-      return response.data
+      const response = await apiClient.patch<any>(`/appointments/${id}/status`, { status })
+      const appointmentData = response.data.appointment || response.data
+      return mapAppointment(appointmentData)
     } catch (error) {
       console.error('Failed to update appointment status:', error)
       throw error
@@ -91,3 +107,4 @@ export const appointmentsApi = {
     }
   },
 }
+

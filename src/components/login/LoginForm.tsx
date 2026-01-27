@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
   Activity,
   Eye,
@@ -14,6 +14,8 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { toast } from 'sonner' 
 import { cn } from '../../lib/utils'
+import { authApi } from '../../services/authApi'
+
 export function LoginForm() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
@@ -53,18 +55,23 @@ export function LoginForm() {
     e.preventDefault()
     if (!validateForm()) return
     setIsLoading(true)
-    // Simulate API call
+    console.log('Submitting login for:', formData.email)
+    
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const response = await authApi.login(formData)
+      console.log('Login response:', response)
       toast.success('Welcome back! Successfully signed in to ZenCare Clinic.')
       navigate('/')
-    } catch (error) {
-      toast.error('Authentication Failed. Invalid email or password.')
-      throw error
+    } catch (error: any) {
+      console.error('Login error details:', error)
+      const message = error.response?.data?.message || 'Authentication Failed. Invalid email or password.'
+      toast.error(message)
     } finally {
       setIsLoading(false)
     }
   }
+
+
   return (
     <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Glass Card */}
@@ -210,13 +217,12 @@ export function LoginForm() {
           </div>
 
           <div className="mt-6 text-center">
-            <a
-              href="#"
+            <Link
+              to="/register"
               className="text-sm font-medium text-slate-600 hover:text-blue-600 hover:underline transition-colors"
-              onClick={(e) => e.preventDefault()}
             >
               Create an account
-            </a>
+            </Link>
           </div>
         </div>
       </div>

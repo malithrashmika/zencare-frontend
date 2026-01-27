@@ -1,4 +1,4 @@
-/*import type { Appointment, DashboardStats, Doctor, Patient, User } from '../types'
+import type { Appointment, DashboardStats, Doctor, Patient, User } from '../types'
 
 export const currentUser: User = {
   id: 'u1',
@@ -304,4 +304,3 @@ export const doctors: Doctor[] = [
     createdAt: ''
   },
 ]
-*/

@@ -4,9 +4,20 @@ export interface User {
   id: string
   name: string
   email: string
-  role: 'admin' | 'doctor' | 'receptionist'
+  role: 'admin' | 'doctor' | 'receptionist' | 'customer'
   avatar?: string
 }
+
+export interface LoginData {
+  email: string
+  password: string
+}
+
+export interface LoginResponse {
+  accessToken: string
+  user: User
+}
+
 
 export interface Patient {
   id: string

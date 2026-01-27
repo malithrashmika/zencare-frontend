@@ -65,7 +65,7 @@ export function DoctorsTable({
                                 <div className="flex items-center gap-3">
                                     <Avatar className="h-8 w-8">
                                         <AvatarFallback>
-                                            {doctor.name.slice(0, 2).toUpperCase()}
+                                            {doctor.name ? doctor.name.slice(0, 2).toUpperCase() : 'DR'}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div>
