@@ -1,169 +1,93 @@
 import type { Appointment, AppointmentFormData, AppointmentsFilters } from '../types'
-import { recentAppointments as mockAppointments } from './mockData'
-import { patients } from './mockData'
-import { doctors } from './mockData'
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-// In-memory store for the session
-let appointmentsStore = [...mockAppointments]
+import apiClient from '../api/apiclient'
 
 export const appointmentsApi = {
   async getAll(filters?: AppointmentsFilters): Promise<Appointment[]> {
-    await delay(600)
+    try {
+      const params = new URLSearchParams()
+      if (filters?.search) params.append('search', filters.search)
+      if (filters?.status && filters.status !== 'all') params.append('status', filters.status)
+      if (filters?.doctorId && filters.doctorId !== 'all') params.append('doctorId', filters.doctorId)
+      if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)
+      if (filters?.dateTo) params.append('dateTo', filters.dateTo)
 
-    let result = [...appointmentsStore]
-
-    if (filters) {
-      if (filters.search) {
-        const searchLower = filters.search.toLowerCase()
-        result = result.filter(
-          (a) =>
-            a.patientName.toLowerCase().includes(searchLower) ||
-            a.patientPhone.includes(filters.search!),
-        )
-      }
-
-      if (filters.status && filters.status !== 'all') {
-        result = result.filter((a) => a.status === filters.status)
-      }
-
-      if (filters.doctorId && filters.doctorId !== 'all') {
-        result = result.filter((a) => a.doctorId === filters.doctorId)
-      }
-
-      if (filters.dateFrom) {
-        result = result.filter(
-          (a) => new Date(a.dateTime) >= new Date(filters.dateFrom!),
-        )
-      }
-
-      if (filters.dateTo) {
-        result = result.filter(
-          (a) => new Date(a.dateTime) <= new Date(filters.dateTo!),
-        )
-      }
+      const response = await apiClient.get<Appointment[]>('/appointments', { params })
+      return response.data
+    } catch (error) {
+      console.error('Failed to fetch appointments:', error)
+      throw error
     }
-
-    // Sort by dateTime desc
-    return result.sort(
-      (a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime(),
-    )
   },
 
   async getById(id: string): Promise<Appointment | undefined> {
-    await delay(400)
-    return appointmentsStore.find((a) => a.id === id)
+    try {
+      const response = await apiClient.get<Appointment>(`/appointments/${id}`)
+      return response.data
+    } catch (error) {
+      console.error('Failed to fetch appointment:', error)
+      throw error
+    }
   },
 
   async create(data: AppointmentFormData): Promise<Appointment> {
-    await delay(800)
-
-    // Get patient and doctor details
-    const patient = patients.find((p) => p.id === data.patientId)
-    const doctor = doctors.find((d) => d.id === data.doctorId)
-
-    if (!patient || !doctor) {
-      throw new Error('Patient or Doctor not found')
+    try {
+      const response = await apiClient.post<Appointment>('/appointments', data)
+      return response.data
+    } catch (error) {
+      console.error('Failed to create appointment:', error)
+      throw error
     }
-
-    const newAppointment: Appointment = {
-      id: `A${Math.floor(Math.random() * 10000)
-        .toString()
-        .padStart(3, '0')}`,
-      patientId: data.patientId,
-      patientName: patient.name,
-      patientPhone: patient.phone,
-      doctorId: data.doctorId,
-      doctorName: doctor.name,
-      doctorSpecialization: doctor.specialization,
-      dateTime: data.dateTime,
-      reason: data.reason,
-      status: 'Scheduled',
-      createdAt: new Date().toISOString(),
-      notes: data.notes,
-      date: undefined,
-      time: undefined,
-      type: undefined
-    }
-
-    appointmentsStore = [newAppointment, ...appointmentsStore]
-    return newAppointment
   },
 
   async update(id: string, data: AppointmentFormData): Promise<Appointment> {
-    await delay(800)
-
-    const index = appointmentsStore.findIndex((a) => a.id === id)
-    if (index === -1) throw new Error('Appointment not found')
-
-    // Get patient and doctor details
-    const patient = patients.find((p) => p.id === data.patientId)
-    const doctor = doctors.find((d) => d.id === data.doctorId)
-
-    if (!patient || !doctor) {
-      throw new Error('Patient or Doctor not found')
+    try {
+      const response = await apiClient.put<Appointment>(`/appointments/${id}`, data)
+      return response.data
+    } catch (error) {
+      console.error('Failed to update appointment:', error)
+      throw error
     }
-
-    const updatedAppointment: Appointment = {
-      ...appointmentsStore[index],
-      patientId: data.patientId,
-      patientName: patient.name,
-      patientPhone: patient.phone,
-      doctorId: data.doctorId,
-      doctorName: doctor.name,
-      doctorSpecialization: doctor.specialization,
-      dateTime: data.dateTime,
-      reason: data.reason,
-      notes: data.notes,
-    }
-
-    appointmentsStore[index] = updatedAppointment
-    return updatedAppointment
   },
 
   async updateStatus(
     id: string,
     status: Appointment['status'],
   ): Promise<Appointment> {
-    await delay(600)
-
-    const index = appointmentsStore.findIndex((a) => a.id === id)
-    if (index === -1) throw new Error('Appointment not found')
-
-    const updatedAppointment: Appointment = {
-      ...appointmentsStore[index],
-      status,
+    try {
+      const response = await apiClient.patch<Appointment>(`/appointments/${id}/status`, { status })
+      return response.data
+    } catch (error) {
+      console.error('Failed to update appointment status:', error)
+      throw error
     }
-
-    appointmentsStore[index] = updatedAppointment
-    return updatedAppointment
   },
 
   async delete(id: string): Promise<void> {
-    await delay(600)
-    appointmentsStore = appointmentsStore.filter((a) => a.id !== id)
+    try {
+      await apiClient.delete(`/appointments/${id}`)
+    } catch (error) {
+      console.error('Failed to delete appointment:', error)
+      throw error
+    }
   },
 
   // Helper to check for overlapping appointments
-  checkOverlap(
+  async checkOverlap(
     doctorId: string,
     dateTime: string,
     excludeId?: string,
-  ): boolean {
-    const appointmentTime = new Date(dateTime)
-    const overlapping = appointmentsStore.find((a) => {
-      if (a.id === excludeId) return false
-      if (a.doctorId !== doctorId) return false
-      if (a.status === 'Cancelled' || a.status === 'No-Show') return false
+  ): Promise<boolean> {
+    try {
+      const params = new URLSearchParams()
+      params.append('doctorId', doctorId)
+      params.append('dateTime', dateTime)
+      if (excludeId) params.append('excludeId', excludeId)
 
-      const existingTime = new Date(a.dateTime)
-      const timeDiff = Math.abs(
-        appointmentTime.getTime() - existingTime.getTime(),
-      )
-      return timeDiff < 30 * 60 * 1000 // 30 minutes
-    })
-
-    return !!overlapping
+      const response = await apiClient.get<{ hasOverlap: boolean }>('/appointments/check-overlap', { params })
+      return response.data.hasOverlap
+    } catch (error) {
+      console.error('Failed to check appointment overlap:', error)
+      return false
+    }
   },
 }

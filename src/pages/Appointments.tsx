@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { Plus, Search } from 'lucide-react'
 import { useAppointments } from '../hooks/useAppointments'
 import { useAuth } from '../hooks/useAuth'
-import type { Appointment, AppointmentFormData } from '../types'
-import { doctors } from '../services/mockData'
+import type { Appointment, AppointmentFormData} from '../types'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from '../components/ui/select'
@@ -30,6 +29,7 @@ import { AppointmentForm } from '../components/appointments/AppointmentForm'
 import { AppointmentView } from '../components/appointments/AppointmentView'
 import { StatusUpdateDialog } from '../components/appointments/StatusUpdateDialog'
 import { Toaster } from 'sonner'
+import { useDoctors } from '@/hooks/useDoctor'
 
 export function Appointments() {
   return <>
@@ -107,6 +107,7 @@ function AppointmentsContent() {
     }
     return ['Scheduled']
   }
+  const { doctors } = useDoctors()   
   // Get active doctors for filter
   const activeDoctors = doctors.filter((d) => d.status === 'Active')
   return (
