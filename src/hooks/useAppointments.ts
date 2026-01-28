@@ -33,7 +33,7 @@ export function useAppointments() {
   const createAppointment = async (data: AppointmentFormData) => {
     try {
       // Check for overlapping appointments
-      const hasOverlap = appointmentsApi.checkOverlap(
+      const hasOverlap = await appointmentsApi.checkOverlap(
         data.doctorId,
         data.dateTime,
       )
@@ -45,8 +45,9 @@ export function useAppointments() {
       setAppointments((prev) => [newAppointment, ...prev])
       toast.success('Appointment created successfully')
       return newAppointment
-    } catch (error) {
-      toast.error('Failed to create appointment')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to create appointment'
+      toast.error(message)
       throw error
     }
   }
@@ -54,7 +55,7 @@ export function useAppointments() {
   const updateAppointment = async (id: string, data: AppointmentFormData) => {
     try {
       // Check for overlapping appointments
-      const hasOverlap = appointmentsApi.checkOverlap(
+      const hasOverlap = await appointmentsApi.checkOverlap(
         data.doctorId,
         data.dateTime,
         id,
@@ -69,8 +70,9 @@ export function useAppointments() {
       )
       toast.success('Appointment updated successfully')
       return updatedAppointment
-    } catch (error) {
-      toast.error('Failed to update appointment')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to update appointment'
+      toast.error(message)
       throw error
     }
   }
@@ -83,8 +85,9 @@ export function useAppointments() {
       )
       toast.success(`Appointment marked as ${status}`)
       return updatedAppointment
-    } catch (error) {
-      toast.error('Failed to update appointment status')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to update appointment status'
+      toast.error(message)
       throw error
     }
   }
@@ -94,8 +97,9 @@ export function useAppointments() {
       await appointmentsApi.delete(id)
       setAppointments((prev) => prev.filter((a) => a.id !== id))
       toast.success('Appointment deleted successfully')
-    } catch (error) {
-      toast.error('Failed to delete appointment')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to delete appointment'
+      toast.error(message)
       throw error
     }
   }

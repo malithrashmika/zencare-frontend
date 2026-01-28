@@ -36,8 +36,9 @@ export function useDoctors() {
       setDoctors((prev) => [newDoctor, ...prev])
       toast.success('Doctor added successfully')
       return newDoctor
-    } catch (error) {
-      toast.error('Failed to add doctor')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to add doctor'
+      toast.error(message)
       throw error
     }
   }
@@ -48,8 +49,9 @@ export function useDoctors() {
       setDoctors((prev) => prev.map((d) => (d.id === id ? updatedDoctor : d)))
       toast.success('Doctor updated successfully')
       return updatedDoctor
-    } catch (error) {
-      toast.error('Failed to update doctor')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to update doctor'
+      toast.error(message)
       throw error
     }
   }
@@ -59,8 +61,9 @@ export function useDoctors() {
       await doctorsApi.delete(id)
       setDoctors((prev) => prev.filter((d) => d.id !== id))
       toast.success('Doctor deleted successfully')
-    } catch (error) {
-      toast.error('Failed to delete doctor')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to delete doctor'
+      toast.error(message)
       throw error
     }
   }

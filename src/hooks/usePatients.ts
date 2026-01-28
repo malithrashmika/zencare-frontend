@@ -36,8 +36,9 @@ export function usePatients() {
       setPatients((prev) => [newPatient, ...prev])
       toast.success('Patient created successfully')
       return newPatient
-    } catch (error) {
-      toast.error('Failed to create patient')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to create patient'
+      toast.error(message)
       throw error
     }
   }
@@ -48,8 +49,9 @@ export function usePatients() {
       setPatients((prev) => prev.map((p) => (p.id === id ? updatedPatient : p)))
       toast.success('Patient updated successfully')
       return updatedPatient
-    } catch (error) {
-      toast.error('Failed to update patient')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to update patient'
+      toast.error(message)
       throw error
     }
   }
@@ -59,8 +61,9 @@ export function usePatients() {
       await patientsApi.delete(id)
       setPatients((prev) => prev.filter((p) => p.id !== id))
       toast.success('Patient deleted successfully')
-    } catch (error) {
-      toast.error('Failed to delete patient')
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to delete patient'
+      toast.error(message)
       throw error
     }
   }
