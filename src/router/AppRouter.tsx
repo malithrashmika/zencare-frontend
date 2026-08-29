@@ -6,7 +6,7 @@ import { Appointments } from "@/pages/Appointments";
 import { Doctors } from "@/pages/Doctors";
 import { Billing } from "@/pages/Billing";
 import { Login } from "@/pages/Login";
-import { Register } from "@/pages/Register";
+import { Users } from "@/pages/Users";
 import { authApi } from "@/services/authApi";
 
 const ProtectedRoute = () => {
@@ -14,6 +14,13 @@ const ProtectedRoute = () => {
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
+    return <Outlet />;
+};
+
+const AdminRoute = () => {
+    const userStr = localStorage.getItem("user");
+    const user = userStr ? JSON.parse(userStr) : null;
+    if (user?.role !== "admin") return <Navigate to="/" replace />;
     return <Outlet />;
 };
 
@@ -30,7 +37,6 @@ export function AppRouter() {
     return (
         <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
 
             <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<DashboardLayout />}>
@@ -41,7 +47,9 @@ export function AppRouter() {
                     <Route path="treatments" element={<Placeholder title="Treatments" />} />
                     <Route path="billing" element={<Billing />} />
                     <Route path="reports" element={<Placeholder title="Reports" />} />
-
+                    <Route element={<AdminRoute />}>
+                        <Route path="users" element={<Users />} />
+                    </Route>
                     <Route path="settings" element={<Placeholder title="Settings" />} />
                 </Route>
             </Route>

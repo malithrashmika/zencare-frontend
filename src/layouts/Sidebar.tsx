@@ -10,13 +10,14 @@ import {
   CreditCard,
   BarChart3,
   Settings,
+  Shield,
   X,
 } from 'lucide-react'
 interface SidebarProps {
   className?: string
   onClose?: () => void
 }
-const navItems = [
+const baseNavItems = [
   {
     title: 'Dashboard',
     href: '/',
@@ -60,6 +61,9 @@ const navItems = [
 ]
 export function Sidebar({ className, onClose }: SidebarProps) {
   const location = useLocation()
+  const userStr = localStorage.getItem("user")
+  const user = userStr ? JSON.parse(userStr) : null
+  const navItems = user?.role === "admin" ? [...baseNavItems.slice(0, 7), { title: 'Users', href: '/users', icon: Shield }, baseNavItems[7]] : baseNavItems
   return (
     <div
       className={cn(

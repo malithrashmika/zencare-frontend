@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Activity,
   Eye,
@@ -201,26 +201,8 @@ export function LoginForm() {
           </Button>
         </form>
 
-        <div className="mt-8">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-slate-200" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-slate-500">
-                New to ZenCare?
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-6 text-center">
-            <Link
-              to="/register"
-              className="text-sm font-medium text-slate-600 hover:text-blue-600 hover:underline transition-colors"
-            >
-              Create an account
-            </Link>
-          </div>
+        <div className="mt-8 text-center">
+          <p className="text-xs text-slate-500">Contact administrator for account access</p>
         </div>
       </div>
 
