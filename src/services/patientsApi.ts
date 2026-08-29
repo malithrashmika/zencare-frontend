@@ -15,8 +15,9 @@ export const patientsApi = {
       if (filters?.gender && filters.gender !== 'all') params.append('gender', filters.gender)
       if (filters?.status && filters.status !== 'all') params.append('status', filters.status)
 
-      const response = await apiClient.get<any[]>('/patients', { params })
-      return response.data.map(mapPatient)
+      const response = await apiClient.get<any>('/patients', { params })
+      const list = Array.isArray(response.data) ? response.data : response.data.data || []
+      return list.map(mapPatient)
     } catch (error) {
       console.error('Failed to fetch patients:', error)
       throw error

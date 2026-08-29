@@ -14,8 +14,9 @@ export const doctorsApi = {
       if (filters?.specialization && filters.specialization !== 'all') params.append('specialization', filters.specialization)
       if (filters?.status && filters.status !== 'all') params.append('status', filters.status)
 
-      const response = await apiClient.get<any[]>('/doctors', { params })
-      return response.data.map(mapDoctor)
+      const response = await apiClient.get<any>('/doctors', { params })
+      const list = Array.isArray(response.data) ? response.data : response.data.data || []
+      return list.map(mapDoctor)
     } catch (error) {
       console.error('Failed to fetch doctors:', error)
       throw error

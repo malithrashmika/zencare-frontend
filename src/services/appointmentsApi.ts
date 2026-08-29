@@ -23,8 +23,9 @@ export const appointmentsApi = {
       if (filters?.dateFrom) params.append('dateFrom', filters.dateFrom)
       if (filters?.dateTo) params.append('dateTo', filters.dateTo)
 
-      const response = await apiClient.get<any[]>('/appointments', { params })
-      return response.data.map(mapAppointment)
+      const response = await apiClient.get<any>('/appointments', { params })
+      const list = Array.isArray(response.data) ? response.data : response.data.data || []
+      return list.map(mapAppointment)
     } catch (error) {
       console.error('Failed to fetch appointments:', error)
       throw error

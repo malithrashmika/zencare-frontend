@@ -1,11 +1,11 @@
-import apiClient from '../api/apiclient'
+import apiClient, { setAccessToken } from '../api/apiclient'
 import type { LoginData, LoginResponse, User } from '../types'
 
 export const authApi = {
   async login(data: LoginData): Promise<LoginResponse> {
     const response = await apiClient.post<LoginResponse>('/auth/login', data)
     if (response.data.accessToken) {
-      localStorage.setItem('authToken', response.data.accessToken)
+      setAccessToken(response.data.accessToken)
       localStorage.setItem('user', JSON.stringify(response.data.user))
     }
     return response.data
@@ -18,7 +18,7 @@ export const authApi = {
 
   async logout(): Promise<void> {
     await apiClient.post('/auth/logout')
-    localStorage.removeItem('authToken')
+    setAccessToken(null)
     localStorage.removeItem('user')
   },
 
