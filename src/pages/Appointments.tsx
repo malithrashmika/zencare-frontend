@@ -59,7 +59,7 @@ function AppointmentsContent() {
     null,
   )
   const [deleteId, setDeleteId] = useState<string | null>(null)
-  // Role-based permissions
+
   const isAdmin = user?.role === 'admin'
   const isReceptionist = user?.role === 'receptionist'
   const isDoctor = user?.role === 'doctor'
@@ -67,7 +67,7 @@ function AppointmentsContent() {
   const canEdit = isAdmin || isReceptionist
   const canDelete = isAdmin
   const canUpdateStatus = isAdmin || isDoctor
-  // Filter appointments for doctors (only show their own)
+
   const filteredAppointments = isDoctor
     ? appointments.filter((a) => a.doctorId === user?.id)
     : appointments
@@ -95,7 +95,7 @@ function AppointmentsContent() {
       setDeleteId(null)
     }
   }
-  // Get allowed status transitions based on role
+
   const getAllowedStatuses = (
     currentStatus: string,
   ): Appointment['status'][] => {
@@ -110,7 +110,7 @@ function AppointmentsContent() {
     }
     return ['Scheduled']
   }
-  // Get active doctors for filter
+
   const activeDoctors = doctors.filter((d) => d.status === 'Active')
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
@@ -267,7 +267,6 @@ function AppointmentsContent() {
         />
       )}
 
-      {/* Add Appointment Dialog */}
       {canCreate && (
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogContent className="sm:max-w-150">
@@ -288,7 +287,6 @@ function AppointmentsContent() {
         </Dialog>
       )}
 
-      {/* View/Edit Appointment Dialog */}
       <Dialog
         open={!!selectedAppointment && viewMode !== 'status'}
         onOpenChange={(open) => !open && setSelectedAppointment(null)}
@@ -324,7 +322,6 @@ function AppointmentsContent() {
         </DialogContent>
       </Dialog>
 
-      {/* Status Update Dialog */}
       <Dialog
         open={viewMode === 'status'}
         onOpenChange={(open) => !open && setViewMode(null)}
@@ -348,7 +345,6 @@ function AppointmentsContent() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation */}
       {canDelete && (
         <AlertDialog
           open={!!deleteId}

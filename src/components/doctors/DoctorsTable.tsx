@@ -1,4 +1,3 @@
-
 import type { Doctor } from '../../types'
 import {
     Table,

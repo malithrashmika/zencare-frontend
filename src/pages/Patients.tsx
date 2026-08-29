@@ -171,7 +171,6 @@ function PatientsContent() {
                 />
             )}
 
-            {/* Add Patient Dialog */}
             <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
                 <DialogContent className="sm:max-w-150">
                     <DialogHeader>
@@ -188,7 +187,6 @@ function PatientsContent() {
                 </DialogContent>
             </Dialog>
 
-            {/* View/Edit Patient Dialog */}
             <Dialog
                 open={!!selectedPatient}
                 onOpenChange={(open) => !open && setSelectedPatient(null)}
@@ -217,7 +215,6 @@ function PatientsContent() {
                 </DialogContent>
             </Dialog>
 
-            {/* Delete Confirmation */}
             <AlertDialog
                 open={!!deleteId}
                 onOpenChange={(open) => !open && setDeleteId(null)}

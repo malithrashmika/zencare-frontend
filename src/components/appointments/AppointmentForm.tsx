@@ -30,12 +30,12 @@ export function AppointmentForm({
     reason: '',
     notes: '',
   })
-  // Filter active patients and doctors
+
   const activePatients = patients.filter((p: Patient) => p.status === 'Active')
   const activeDoctors = doctors.filter((d: Doctor) => d.status === 'Active')
   useEffect(() => {
     if (initialData) {
-      // Convert ISO datetime to datetime-local format
+
       const localDateTime = initialData.dateTime.slice(0, 16)
       setFormData({
         patientId: initialData.patientId,
@@ -50,7 +50,7 @@ export function AppointmentForm({
     e.preventDefault()
     setIsSubmitting(true)
     try {
-      // Convert datetime-local to ISO format
+
       const isoDateTime = new Date(formData.dateTime).toISOString()
       await onSubmit({
         ...formData,
@@ -60,7 +60,7 @@ export function AppointmentForm({
       setIsSubmitting(false)
     }
   }
-  // Disable form if appointment is completed
+
   const isCompleted = initialData?.status === 'Completed'
   return (
     <form onSubmit={handleSubmit} className="space-y-4 py-4">

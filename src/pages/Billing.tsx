@@ -8,7 +8,6 @@ import type { Invoice } from '@/services/billingApi'
 import { Loader2, RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
 
-
 export function Billing() {
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [loading, setLoading] = useState(true)
@@ -89,14 +88,14 @@ export function Billing() {
                       </TableCell>
                       <TableCell className="font-semibold">${invoice.totalAmount}</TableCell>
                       <TableCell>
-                        <Badge variant={invoice.status === 'Paid' ? 'outline' : 'default'} 
+                        <Badge variant={invoice.status === 'Paid' ? 'outline' : 'default'}
                                className={invoice.status === 'Paid' ? 'border-green-500 text-green-700 bg-green-50' : ''}>
                           {invoice.status}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant={invoice.status === 'Paid' ? 'outline' : 'default'}
                           onClick={() => handleUpdateStatus(invoice.id, invoice.status)}
                         >

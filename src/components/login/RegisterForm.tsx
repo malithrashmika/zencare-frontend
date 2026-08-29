@@ -23,7 +23,6 @@ import {
 } from '../ui/select'
 import { LayoutGrid } from 'lucide-react'
 
-
 export function RegisterForm() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
@@ -86,7 +85,7 @@ export function RegisterForm() {
     setIsLoading(true)
 
     try {
-      // Create user with default 'customer' role
+
       await authApi.register({
         name: formData.name,
         email: formData.email,

@@ -22,7 +22,7 @@ export function useDoctors() {
   }, [filters])
 
   useEffect(() => {
-    // Debounce search
+
     const timer = setTimeout(() => {
       fetchDoctors()
     }, 500)

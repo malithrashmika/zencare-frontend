@@ -50,7 +50,7 @@ function DoctorsContent() {
     const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null)
     const [viewMode, setViewMode] = useState<'view' | 'edit' | null>(null)
     const [deleteId, setDeleteId] = useState<string | null>(null)
-    // Role-based permissions: only admin can manage doctors
+
     const canManage = user?.role === 'admin'
     const handleCreate = async (data: DoctorFormData) => {
         await createDoctor(data)
@@ -69,7 +69,7 @@ function DoctorsContent() {
             setDeleteId(null)
         }
     }
-    // Get unique specializations for filter
+
     const specializations = Array.from(
         new Set(doctors.map((d) => d.specialization)),
     )
@@ -173,7 +173,6 @@ function DoctorsContent() {
                 />
             )}
 
-            {/* Add Doctor Dialog - Only for Admin */}
             {canManage && (
                 <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
                     <DialogContent className="sm:max-w-150">
@@ -192,7 +191,6 @@ function DoctorsContent() {
                 </Dialog>
             )}
 
-            {/* View/Edit Doctor Dialog */}
             <Dialog
                 open={!!selectedDoctor}
                 onOpenChange={(open) => !open && setSelectedDoctor(null)}
@@ -222,7 +220,6 @@ function DoctorsContent() {
                 </DialogContent>
             </Dialog>
 
-            {/* Delete Confirmation - Only for Admin */}
             {canManage && (
                 <AlertDialog
                     open={!!deleteId}

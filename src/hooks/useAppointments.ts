@@ -22,7 +22,7 @@ export function useAppointments() {
   }, [filters])
 
   useEffect(() => {
-    // Debounce search
+
     const timer = setTimeout(() => {
       fetchAppointments()
     }, 500)
@@ -32,7 +32,7 @@ export function useAppointments() {
 
   const createAppointment = async (data: AppointmentFormData) => {
     try {
-      // Check for overlapping appointments
+
       const hasOverlap = await appointmentsApi.checkOverlap(
         data.doctorId,
         data.dateTime,
@@ -54,7 +54,7 @@ export function useAppointments() {
 
   const updateAppointment = async (id: string, data: AppointmentFormData) => {
     try {
-      // Check for overlapping appointments
+
       const hasOverlap = await appointmentsApi.checkOverlap(
         data.doctorId,
         data.dateTime,
@@ -116,4 +116,3 @@ export function useAppointments() {
     refresh: fetchAppointments,
   }
 }
-

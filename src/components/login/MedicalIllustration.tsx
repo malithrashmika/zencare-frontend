@@ -1,7 +1,7 @@
 export function MedicalIllustration() {
   return (
     <div className="relative hidden h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-slate-800 p-10 text-white lg:flex">
-      {/* Background Pattern */}
+
       <div className="absolute inset-0 opacity-10">
         <svg
           className="h-full w-full"
@@ -12,16 +12,13 @@ export function MedicalIllustration() {
         </svg>
       </div>
 
-      {/* Floating Icons Container */}
       <div className="relative z-10 h-full w-full max-w-lg">
-        {/* Central Abstract Element */}
+
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
           <div className="h-64 w-64 animate-pulse rounded-full bg-blue-400/20 blur-3xl filter" />
           <div className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-blue-300/10 blur-2xl filter" />
         </div>
 
-        {/* Floating Medical Icons */}
-        {/* Heartbeat Line */}
         <div className="absolute left-10 top-1/4 animate-[float_6s_ease-in-out_infinite]">
           <svg
             width="120"
@@ -41,7 +38,6 @@ export function MedicalIllustration() {
           </svg>
         </div>
 
-        {/* Stethoscope Abstract */}
         <div className="absolute right-10 top-1/3 animate-[float_8s_ease-in-out_infinite_1s]">
           <svg
             width="80"
@@ -60,7 +56,6 @@ export function MedicalIllustration() {
           </svg>
         </div>
 
-        {/* Medical Cross */}
         <div className="absolute bottom-1/4 left-20 animate-[float_7s_ease-in-out_infinite_2s]">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
             <svg
@@ -80,7 +75,6 @@ export function MedicalIllustration() {
           </div>
         </div>
 
-        {/* DNA Helix Abstract */}
         <div className="absolute bottom-1/3 right-20 animate-[float_9s_ease-in-out_infinite_0.5s]">
           <svg
             width="60"
@@ -103,7 +97,6 @@ export function MedicalIllustration() {
         </div>
       </div>
 
-      {/* Text Content */}
       <div className="relative z-10 mt-auto max-w-md text-center">
         <h2 className="mb-4 text-3xl font-bold tracking-tight text-white">
           Streamlined Clinical Operations

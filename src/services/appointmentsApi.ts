@@ -44,7 +44,7 @@ export const appointmentsApi = {
   async create(data: AppointmentFormData): Promise<Appointment> {
     try {
       const response = await apiClient.post<any>('/appointments/save', data)
-      // The response.data might be { message, appointment } or just appointment
+
       const appointmentData = response.data.appointment || response.data
       return mapAppointment(appointmentData)
     } catch (error) {
@@ -87,7 +87,6 @@ export const appointmentsApi = {
     }
   },
 
-  // Helper to check for overlapping appointments
   async checkOverlap(
     doctorId: string,
     dateTime: string,
@@ -107,4 +106,3 @@ export const appointmentsApi = {
     }
   },
 }
-

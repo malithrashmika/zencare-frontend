@@ -1,4 +1,3 @@
-
 import type { Appointment } from '../../types'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'

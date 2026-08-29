@@ -6,7 +6,7 @@ import {  Mail, Phone, MapPin, Clock, User } from 'lucide-react'
 interface PatientViewProps {
   patient: Patient
   onClose: () => void
-  onEdit: () => void 
+  onEdit: () => void
 }
 export function PatientView({ patient, onClose, onEdit }: PatientViewProps) {
   return (

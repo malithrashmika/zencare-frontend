@@ -1,4 +1,3 @@
-
 import type { Appointment } from '../../types'
 import {
   Table,

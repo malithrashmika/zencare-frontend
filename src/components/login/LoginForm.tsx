@@ -12,7 +12,7 @@ import {
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import { toast } from 'sonner' 
+import { toast } from 'sonner'
 import { cn } from '../../lib/utils'
 import { authApi } from '../../services/authApi'
 
@@ -56,7 +56,7 @@ export function LoginForm() {
     if (!validateForm()) return
     setIsLoading(true)
     console.log('Submitting login for:', formData.email)
-    
+
     try {
       const response = await authApi.login(formData)
       console.log('Login response:', response)
@@ -71,12 +71,11 @@ export function LoginForm() {
     }
   }
 
-
   return (
     <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Glass Card */}
+
       <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 p-8 shadow-2xl backdrop-blur-xl sm:p-10">
-        {/* Header */}
+
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
             <Activity className="h-6 w-6" />
@@ -89,7 +88,6 @@ export function LoginForm() {
           </p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
@@ -203,7 +201,6 @@ export function LoginForm() {
           </Button>
         </form>
 
-        {/* Footer */}
         <div className="mt-8">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">

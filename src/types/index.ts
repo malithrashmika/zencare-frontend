@@ -18,20 +18,19 @@ export interface LoginResponse {
   user: User
 }
 
-
 export interface Patient {
   id: string
   name: string
   phone: string
   email: string
-  dateOfBirth: string // ISO date string YYYY-MM-DD
-  age: number // calculated from DOB
+  dateOfBirth: string
+  age: number
   gender: 'Male' | 'Female' | 'Other'
   address: string
   notes?: string
   status: 'Active' | 'Inactive'
-  registrationDate: string // ISO date string
-  lastVisit?: string // ISO date string
+  registrationDate: string
+  lastVisit?: string
 }
 
 export interface PatientFormData {
@@ -60,7 +59,7 @@ export interface Doctor {
   channelFee: number
   status: 'Active' | 'On Leave'
   avatar?: string
-  createdAt: string // ISO date string
+  createdAt: string
 }
 
 export interface DoctorFormData {
@@ -89,10 +88,10 @@ export interface Appointment {
   doctorId: string
   doctorName: string
   doctorSpecialization: string
-  dateTime: string // ISO datetime string
+  dateTime: string
   reason: string
   status: 'Scheduled' | 'Completed' | 'Cancelled' | 'No-Show'
-  createdAt: string // ISO datetime string
+  createdAt: string
   notes?: string
 }
 
@@ -119,7 +118,7 @@ export interface DashboardStats {
   completedVisits: number
   activeDoctors: number
   trends: {
-    patients: number // percentage
+    patients: number
     appointments: number
     revenue: number
   }

@@ -22,7 +22,7 @@ export function usePatients() {
   }, [filters])
 
   useEffect(() => {
-    // Debounce search
+
     const timer = setTimeout(() => {
       fetchPatients()
     }, 500)

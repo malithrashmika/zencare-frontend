@@ -55,7 +55,6 @@ export const patientsApi = {
     }
   },
 
-
   async delete(id: string): Promise<void> {
     try {
       await apiClient.delete(`/patients/${id}`)

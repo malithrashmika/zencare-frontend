@@ -32,7 +32,6 @@ export function AppRouter() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            
             <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<DashboardLayout />}>
                     <Route index element={<Dashboard />} />

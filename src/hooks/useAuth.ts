@@ -26,7 +26,7 @@ export function useAuth() {
     try {
       await authApi.logout()
       setUser(null)
-      
+
       navigate('/login')
     } catch (error) {
       console.error('Logout failed:', error)
@@ -35,4 +35,3 @@ export function useAuth() {
 
   return { user, loading, logout, isAuthenticated: !!user }
 }
-

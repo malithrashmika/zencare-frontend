@@ -16,7 +16,7 @@ export function useDashboardStats() {
           appointmentsApi.getAll()
         ])
         setStats(statsData)
-        setAppointments(appointmentsData.slice(0, 5)) // Get recent 5
+        setAppointments(appointmentsData.slice(0, 5))
       } catch (error) {
         console.error('Failed to fetch dashboard stats:', error)
       } finally {
@@ -29,4 +29,3 @@ export function useDashboardStats() {
 
   return { stats, appointments, loading }
 }
-
