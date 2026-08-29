@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = 'http://localhost:5050/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api'
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -10,26 +10,46 @@ export const apiClient = axios.create({
   },
 })
 
-// Add request interceptor to include auth token if needed
+let accessToken: string | null = localStorage.getItem('authToken')
+export const setAccessToken = (token: string | null) => {
+  accessToken = token
+  if (token) localStorage.setItem('authToken', token)
+  else localStorage.removeItem('authToken')
+}
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken')
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
+    if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`
     return config
   },
   (error) => Promise.reject(error),
 )
-
-// Add response interceptor for error handling
+let isRefreshing = false
+let failedQueue: Array<{ resolve: (v: unknown) => void; reject: (e: unknown) => void }> = []
+const processQueue = (error: unknown, token: string | null = null) => {
+  failedQueue.forEach(p => (error ? p.reject(error) : p.resolve(token)))
+  failedQueue = []
+}
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Handle unauthorized access
-      localStorage.removeItem('authToken')
-      window.location.href = '/login'
+  async (error) => {
+    const original = error.config
+    if (error.response?.status === 401 && !original._retry) {
+      if (isRefreshing) return new Promise((resolve, reject) => failedQueue.push({ resolve, reject })).then((token) => { original.headers.Authorization = `Bearer ${token}`; return apiClient(original) })
+      original._retry = true
+      isRefreshing = true
+      try {
+        const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, {}, { withCredentials: true })
+        const newToken = data.accessToken
+        setAccessToken(newToken)
+        processQueue(null, newToken)
+        original.headers.Authorization = `Bearer ${newToken}`
+        return apiClient(original)
+      } catch (e) {
+        processQueue(e, null)
+        setAccessToken(null)
+        window.location.href = '/login'
+        return Promise.reject(e)
+      } finally { isRefreshing = false }
     }
     return Promise.reject(error)
   },
